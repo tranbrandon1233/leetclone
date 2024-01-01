@@ -12,7 +12,6 @@ const firebaseConfig = {
 };
 const app =  !getApps.length ? initializeApp(firebaseConfig) :  getApp();
 
-console.log(firebaseConfig.apiId);
 
 const auth = getAuth(app);
 const firestore = getFirestore(app);

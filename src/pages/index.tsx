@@ -1,15 +1,41 @@
 import ProblemsTable from "@/components/ProblemsTable/ProblemsTable";
 import Topbar from "@/components/Topbar/Topbar";
 import useHasMounted from "@/hooks/useHasMounted";
-
+import { setDoc,doc } from "firebase/firestore";
+import {firestore} from "@/firebase/firebase";
 import { useState } from "react";
 
 export default function Home() {
+	const [inputs, setInputs] = useState({
+		id: '',
+		title: "",
+		difficulty: "",
+		category: "",
+		videoId: "",
+		link: '',
+		order: 0,
+		likes: 0,
+		dislikes: 0,
+	});
 	const [loadingProblems, setLoadingProblems] = useState(true);
 	const hasMounted = useHasMounted();
-
 	if (!hasMounted) return null;
 
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setInputs({
+			...inputs,
+			[e.target.name]: e.target.value
+		})
+	}
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
+	const newProblem = {
+		...inputs,
+		order: Number(inputs.order)
+	}
+	await setDoc(doc(firestore, "problems", inputs.id), newProblem);
+	alert("saved to db")
+}
 	return (
 		<>
 			<main className='bg-dark-layer-2 min-h-screen'>
@@ -54,6 +80,16 @@ export default function Home() {
 						<ProblemsTable setLoadingProblems={setLoadingProblems} />
 					</table>
 				</div>
+				<form onSubmit={handleSubmit} className="p-6 flex flex-col max-w-sm gap-3">
+					<input onChange={handleChange} type="text" placeholder="id" className="border border-gray-300 p-2 rounded-md" name="id"/>
+					<input onChange={handleChange} type="text" placeholder="title" className="border border-gray-300 p-2 rounded-md" name="title"/>
+					<input onChange={handleChange} type="text" placeholder="difficulty" className="border border-gray-300 p-2 rounded-md" name="difficulty"/>
+					<input onChange={handleChange} type="text" placeholder="category" className="border border-gray-300 p-2 rounded-md" name="category"/>
+					<input onChange={handleChange} type="text" placeholder="order" className="border border-gray-300 p-2 rounded-md" name="order"/>
+					<input onChange={handleChange} type="text" placeholder="videoId?" className="border border-gray-300 p-2 rounded-md" name="videoId"/>
+					<input onChange={handleChange} type="text" placeholder="link?" className="border border-gray-300 p-2 rounded-md" name="link"/>
+					<button className='bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 rounded-md'> Save to Firestore </button>
+				</form>
 			</main>
 		</>
 	);
