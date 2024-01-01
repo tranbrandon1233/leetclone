@@ -20,7 +20,7 @@ export default function Home() {
 	const [loadingProblems, setLoadingProblems] = useState(true);
 	const hasMounted = useHasMounted();
 	if (!hasMounted) return null;
-
+/*
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputs({
 			...inputs,
@@ -36,6 +36,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 	await setDoc(doc(firestore, "problems", inputs.id), newProblem);
 	alert("saved to db")
 }
+*/
 	return (
 		<>
 			<main className='bg-dark-layer-2 min-h-screen'>
