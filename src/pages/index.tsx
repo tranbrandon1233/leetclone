@@ -2,6 +2,8 @@ import ProblemsTable from "@/components/ProblemsTable/ProblemsTable";
 import Topbar from "@/components/Topbar/Topbar";
 import useHasMounted from "@/hooks/useHasMounted";
 import { useState } from "react";
+import { Analytics } from '@vercel/analytics/react';
+
 
 export default function Home() {
 	const [inputs, setInputs] = useState({
@@ -80,7 +82,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 					</table>
 				</div>
 				
-				
+				<Analytics />
 				
 			</main>
 		</>
